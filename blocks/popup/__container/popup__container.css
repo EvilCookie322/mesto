@@ -1,0 +1,6 @@
+.popup__container {
+	margin-top: 190px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
