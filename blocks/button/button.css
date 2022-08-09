@@ -1,6 +1,8 @@
 .button {
 	box-sizing: border-box;
 	padding: 0;
+	border: 0;
+	outline: none;
 	background: none;
 	transition: opacity .5s ease-in-out;
 }
