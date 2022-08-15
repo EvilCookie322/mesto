@@ -6,11 +6,17 @@
 	align-items: center;
 }
 
-@media  screen and (max-width: 800px) {
+@media screen and (max-width: 800px) {
 	.profile {
-		padding: 0 19px;
 		justify-items: center;
 		grid-template: repeat(2, auto) 50px / auto;
 		gap: 26px;
+	}
+}
+
+@media screen and (max-width: 660px) {
+	.profile {
+		justify-self: center;
+		grid-template-columns: 282px;
 	}
 }

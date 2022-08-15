@@ -5,6 +5,7 @@
 	outline: none;
 	background: none;
 	transition: opacity .5s ease-in-out;
+	cursor: pointer;
 }
 
 .button:hover {

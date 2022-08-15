@@ -9,7 +9,7 @@
 	grid-column: span 2;
 }
 
-@media screen and (max-width: 618px) {
+@media screen and (max-width: 660px) {
 	.profile__description {
 		font-size: 14px;
 		line-height: calc(17/14);

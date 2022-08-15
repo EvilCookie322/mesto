@@ -7,14 +7,17 @@
 
 @media screen and (max-width: 800px) {
 	.profile__info {
+		position: relative;
+		grid-template-columns: 1fr;
+		max-width: 78%;
 		padding-bottom: 10px;
 		row-gap: 7px;
 		text-align: center;
 	}
 }
 
-@media screen and (max-width: 618px) {
+@media screen and (max-width: 660px) {
 	.profile__info {
-		column-gap: 10px;
+		column-gap: 0;
 	}
 }

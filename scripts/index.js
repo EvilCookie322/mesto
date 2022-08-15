@@ -1,29 +1,37 @@
 const edit = document.querySelector('.profile__edit-button');
 const popup = document.querySelector('.popup');
-const submit = document.querySelector('.popup__submit-button');
+const submit = document.querySelector('.edit-form__submit-button');
 const editClose = document.querySelector('.popup__close-button');
-const popupInputName = document.querySelector('.popup__input_el_name');
-const popupInputDescription = document.querySelector('.popup__input_el_description');
+const popupInputName = document.querySelector('.edit-form__input_el_name');
+const popupInputDescription = document.querySelector('.edit-form__input_el_description');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
+const likeButton = document.querySelectorAll('.element__button');
+
+function popupOpen() {
+	popup.classList.toggle('popup_opened');
+}
+
+likeButton.forEach((el) => {
+	el.onclick = () => {
+		el.classList.toggle('element__button_active');
+	}
+})
 
 edit.addEventListener('click', () => {
-	popup.classList.toggle('popup_opened');
-});
+	popupInputName.value = profileName.textContent;
+	popupInputDescription.value = profileDescription.textContent;
+	popupOpen();
+})
 
-editClose.addEventListener('click', () => {
-	popup.classList.toggle('popup_opened');
-});
+editClose.addEventListener('click', popupOpen);
 
 submit.addEventListener('click', (event) => {
-	if (popupInputName.value && popupInputDescription.value) {
-		profileName.textContent = popupInputName.value;
-		profileDescription.textContent = popupInputDescription.value;
-	} else {
-		return false;
-	}
 	event.preventDefault();
-	popup.classList.toggle('popup_opened');
-});
+	profileName.textContent = popupInputName.value;
+	profileDescription.textContent = popupInputDescription.value;
+	popupOpen();
+})
+
 
 
