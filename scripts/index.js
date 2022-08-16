@@ -1,15 +1,28 @@
-const edit = document.querySelector('.profile__edit-button');
+const profileEditButton = document.querySelector('.profile__edit-button');
 const popup = document.querySelector('.popup');
-const submit = document.querySelector('.edit-form__submit-button');
-const editClose = document.querySelector('.popup__close-button');
-const popupInputName = document.querySelector('.edit-form__input_el_name');
-const popupInputDescription = document.querySelector('.edit-form__input_el_description');
+const editForm = document.querySelector('.edit-form');
+const popupCloseButton = document.querySelector('.popup__close-button');
+const nameInputElement = document.querySelector('.edit-form__input_el_name');
+const descriptionInputElement = document.querySelector('.edit-form__input_el_description');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const likeButton = document.querySelectorAll('.element__button');
 
-function popupOpen() {
+function togglePopup() {
 	popup.classList.toggle('popup_opened');
+}
+
+function submitHandler(event) {
+	event.preventDefault();
+	profileName.textContent = nameInputElement.value;
+	profileDescription.textContent = descriptionInputElement.value;
+	togglePopup();
+}
+
+function openEditForm() {
+	nameInputElement.value = profileName.textContent;
+	descriptionInputElement.value = profileDescription.textContent;
+	togglePopup();
 }
 
 likeButton.forEach((el) => {
@@ -18,20 +31,11 @@ likeButton.forEach((el) => {
 	}
 })
 
-edit.addEventListener('click', () => {
-	popupInputName.value = profileName.textContent;
-	popupInputDescription.value = profileDescription.textContent;
-	popupOpen();
-})
+profileEditButton.addEventListener('click', openEditForm)
 
-editClose.addEventListener('click', popupOpen);
+popupCloseButton.addEventListener('click', togglePopup);
 
-submit.addEventListener('click', (event) => {
-	event.preventDefault();
-	profileName.textContent = popupInputName.value;
-	profileDescription.textContent = popupInputDescription.value;
-	popupOpen();
-})
+editForm.addEventListener('submit', submitHandler);
 
 
 
