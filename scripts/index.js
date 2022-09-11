@@ -12,8 +12,8 @@ const likeButton = document.querySelectorAll('.element__button-like');
 const popupAdd = document.querySelector('.popup-add');
 const placeAddButton = document.querySelector('.profile__add-button');
 const addForm = document.querySelector('.form-add-element');
-const addElementName = document.querySelector('.add-form__input_el_name');
-const addElementLink = document.querySelector('.add-form__input_el_link')
+const addElementName = document.querySelector('.form__input_el_name');
+const addElementLink = document.querySelector('.form__input_el_link')
 
 const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector('.elements');
@@ -102,7 +102,6 @@ profileEditButton.addEventListener('click', openEditForm);
 
 popupCloseButton.forEach(btn => btn.addEventListener('click', (e) => {
 	togglePopup(e.target.closest('.popup'));
-	console.log(e);
 }));
 
 editForm.addEventListener('submit', editSubmitHandler);
