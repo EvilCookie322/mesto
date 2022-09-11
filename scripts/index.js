@@ -11,9 +11,9 @@ const likeButton = document.querySelectorAll('.element__button-like');
 
 const popupAdd = document.querySelector('.popup-add');
 const placeAddButton = document.querySelector('.profile__add-button');
-const addForm = document.querySelector('.form-add-element');
-const addElementName = document.querySelector('.form__input_el_name');
-const addElementLink = document.querySelector('.form__input_el_link')
+const addForm = document.querySelector('.add-form');
+const addElementName = document.querySelector('.add-form__input_el_name');
+const addElementLink = document.querySelector('.add-form__input_el_link')
 
 const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector('.elements');
