@@ -105,10 +105,6 @@ popupCloseButton.forEach(btn => btn.addEventListener('click', (e) => {
 	console.log(e);
 }));
 
-// popup.forEach(e => {
-// 	e.addEventListener('click', (event) => togglePopup(event.target));
-// });
-
 editForm.addEventListener('submit', editSubmitHandler);
 addForm.addEventListener('submit', addSubmitHandler);
 
