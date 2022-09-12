@@ -9,14 +9,16 @@ const profileDescription = document.querySelector('.profile__description');
 
 const popupAddCard = document.querySelector('.popup_type_add-card');
 const cardAddButton = document.querySelector('.profile__add-button');
-const addForm = document.querySelector('.form_type_add');
-const addElementName = document.querySelector('#add-form__name');
-const addElementLink = document.querySelector('#add-form__link');
+const formAddElement = document.querySelector('.form_type_add');
+const formAddElementName = document.querySelector('#add-form__name');
+const formAddElementLink = document.querySelector('#add-form__link');
 
 const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector('.elements');
 
 const popupPreviewPicture = document.querySelector('.popup_type_preview-picture');
+const popupImage = popupPreviewPicture.querySelector('.popup__image');
+const popupName = popupPreviewPicture.querySelector('.popup__name');
 
 const popups = document.querySelectorAll('.popup');
 
@@ -42,8 +44,6 @@ function addElement(name, link) {
 }
 
 function openPreviewPicture(name, link) {
-	const popupImage = popupPreviewPicture.querySelector('.popup__image');
-	const popupName = popupPreviewPicture.querySelector('.popup__name');
 	popupImage.src = link;
 	popupImage.alt = name;
 	popupName.textContent = name;
@@ -55,11 +55,11 @@ function toggleClass(element, className) {
 }
 
 function openPopup(popup) {
-	toggleClass(popup, 'popup_opened');
+	popup.classList.add('popup_opened');
 }
 
 function closePopup(popup) {
-	toggleClass(popup, 'popup_opened');
+	popup.classList.remove('popup_opened');
 }
 
 function handleSubmitEditProfileForm(event) {
@@ -71,10 +71,10 @@ function handleSubmitEditProfileForm(event) {
 
 function handleSubmitAddElementForm(event) {
 	event.preventDefault();
-	addElement(addElementLink.value, addElementName.value);
+	addElement(formAddElementName.value, formAddElementLink.value);
 	closePopup(popupAddCard);
-	addElementName.value = '';
-	addElementLink.value = '';
+	formAddElementName.value = '';
+	formAddElementLink.value = '';
 }
 
 function openEditForm() {
@@ -98,7 +98,7 @@ popupCloseButtons.forEach(btn => btn.addEventListener('click', (event) => {
 }));
 
 formEditProfile.addEventListener('submit', handleSubmitEditProfileForm);
-addForm.addEventListener('submit', handleSubmitAddElementForm);
+formAddElement.addEventListener('submit', handleSubmitAddElementForm);
 
 cardAddButton.addEventListener('click', () => openPopup(popupAddCard));
 
