@@ -25,50 +25,13 @@
 				<button type="submit" class="button profile__add-button"></button>
 			</section>
 
-			<ul class="elements">
-				<!-- <li class="element">
-					<img src="images/karachaevsk.jpg" alt="Карачаевск" class="element__image">
-					<h2 class="element__name">Карачаевск</h2>
-					<button type="button" class="button element__button-like"></button>
-					<button type="button" class="button element__button-trash"></button>
-				</li>
-				<li class="element">
-					<img src="images/elbrus.jpg" alt="Эльбрус" class="element__image">
-					<h2 class="element__name">Гора Эльбрус</h2>
-					<button type="button" class="button element__button-like"></button>
-					<button type="button" class="button element__button-trash"></button>
-				</li>
-				<li class="element">
-					<img src="images/dombai.jpg" alt="Домбай" class="element__image">
-					<h2 class="element__name">Домбай</h2>
-					<button type="button" class="button element__button-like"></button>
-					<button type="button" class="button element__button-trash"></button>
-				</li>
-				<li class="element">
-					<img src="images/elbrus.jpg" alt="Эльбрус" class="element__image">
-					<h2 class="element__name">Гора Эльбрус</h2>
-					<button type="button" class="button element__button-like"></button>
-					<button type="button" class="button element__button-trash"></button>
-				</li>
-				<li class="element">
-					<img src="images/dombai.jpg" alt="Домбай" class="element__image">
-					<h2 class="element__name">Домбай</h2>
-					<button type="button" class="button element__button-like"></button>
-					<button type="button" class="button element__button-trash"></button>
-				</li>
-				<li class="element">
-					<img src="images/karachaevsk.jpg" alt="Карачаевск" class="element__image">
-					<h2 class="element__name">Карачаево-Черкесия</h2>
-					<button type="button" class="button element__button-like"></button>
-					<button type="button" class="button element__button-trash"></button>
-				</li> -->
-			</ul>
+			<ul class="elements"></ul>
 		</main>
 		<footer class="footer">
 			<p class="footer__copyright">© 2022 Mesto Russia</p>
 		</footer>
 	</div>
-	<div class="popup popup-edit">
+	<div class="popup popup_type_edit-profile">
 		<div class="popup__container">
 			<h2 class="popup__heading">Редактировать профиль</h2>
 			<form name="edit-form" class="edit-form form-edit-profile">
@@ -80,7 +43,7 @@
 			<button type="button" class="button popup__close-button"></button>
 		</div>
 	</div>
-	<div class="popup popup-add">
+	<div class="popup popup_type_add-card">
 		<div class="popup__container">
 			<h2 class="popup__heading">Новое место</h2>
 			<form name="add-form " class="edit-form add-form">
@@ -92,7 +55,7 @@
 			<button type="button" class="button popup__close-button"></button>
 		</div>
 	</div>
-	<div class="popup popup-picture">
+	<div class="popup popup_type_preview-picture">
 		<div class="popup__picture-container">
 			<img class="popup__image" src="#" alt>
 			<h2 class="popup__name"></h2>
@@ -107,6 +70,7 @@
 			<button type="button" class="button element__button-trash"></button>
 		</li>
 	</template>
+	<script src="scripts/cards.js"></script>
 	<script src="scripts/index.js"></script>
 </body>
 
