@@ -3,16 +3,16 @@ const popupEditProfile = document.querySelector('.popup_type_edit-profile');
 const formEditProfile = document.querySelector('.form_type_edit');
 const formEditProfileInputs = Array.from(formEditProfile.querySelectorAll('.form__input'));
 const popupCloseButtons = document.querySelectorAll('.popup__close-button');
-const inputElementName = document.querySelector('#edit-form__name');
-const inputElementDescription = document.querySelector('#edit-form__description');
+const formEditNameInput = formEditProfile.querySelector('#name-input');
+const formEditDescriptionInput = formEditProfile.querySelector('#description-input');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 
 const popupAddCard = document.querySelector('.popup_type_add-card');
 const cardAddButton = document.querySelector('.profile__add-button');
 const formAddElement = document.querySelector('.form_type_add');
-const formAddElementName = document.querySelector('#add-form__name');
-const formAddElementLink = document.querySelector('#add-form__link');
+const formAddNameInput = formAddElement.querySelector('#name-input');
+const formAddLinkInput = formAddElement.querySelector('#link-input');
 
 const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector('.elements');
@@ -66,19 +66,19 @@ function closePopup(popup) {
 }
 
 function handleSubmitEditProfileForm() {
-	profileName.textContent = inputElementName.value;
-	profileDescription.textContent = inputElementDescription.value;
+	profileName.textContent = formEditNameInput.value;
+	profileDescription.textContent = formEditDescriptionInput.value;
 	closePopup(popupEditProfile);
 }
 
 function handleSubmitAddElementForm() {
-	addElement(formAddElementName.value, formAddElementLink.value);
+	addElement(formAddNameInput.value, formAddLinkInput.value);
 	closePopup(popupAddCard);
 }
 
 function openEditForm() {
-	inputElementName.value = profileName.textContent;
-	inputElementDescription.value = profileDescription.textContent;
+	formEditNameInput.value = profileName.textContent;
+	formEditDescriptionInput.value = profileDescription.textContent;
 	openPopup(popupEditProfile);
 }
 
