@@ -18,20 +18,20 @@ function enableValidation(set) {
 function setEventListeners(form, set) {
 	const inputList = Array.from(form.querySelectorAll(set.inputSelector));
 	const buttonSubmit = form.querySelector(set.submitButtonSelector);
-	const profile = document.querySelector('.profile');
-	const profileButtonType = form.classList[1].slice(10);
-	const profileButton = profile.querySelector(`.profile__${profileButtonType}-button`);
-	profileButton.addEventListener('click', () => {
-		inputList.forEach((input) => {
-			checkInputValidity(form, input, set);
-			hideInputError(form, input, set);
-		});
-		toggleButtonState(inputList, buttonSubmit, set);
-	});
 	inputList.forEach(input => input.addEventListener('input', () => {
 		checkInputValidity(form, input, set);
 		toggleButtonState(inputList, buttonSubmit, set);
 	}));
+}
+
+function resetFormErrors(form, set) {
+	const inputList = Array.from(form.querySelectorAll(set.inputSelector));
+	const buttonSubmit = form.querySelector(set.submitButtonSelector);
+	inputList.forEach((input) => {
+		checkInputValidity(form, input, set);
+		hideInputError(form, input, set);
+	});
+	toggleButtonState(inputList, buttonSubmit, set);
 }
 
 function checkInputValidity(form, input, set) {
