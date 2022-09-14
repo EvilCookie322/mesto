@@ -20,7 +20,11 @@ function setEventListeners(form, set) {
 	const buttonSubmit = form.querySelector(set.submitButtonSelector);
 	inputList.forEach(input => input.addEventListener('input', () => {
 		checkInputValidity(form, input, set);
-		toggleButtonState(inputList, buttonSubmit, set);
+		if (hasInvalidInput(inputList)) {
+			enableSubmitButton(buttonSubmit, set);
+		} else {
+			disableSubmitButton(buttonSubmit, set);
+		}
 	}));
 }
 
@@ -31,7 +35,11 @@ function resetFormErrors(form, set) {
 		checkInputValidity(form, input, set);
 		hideInputError(form, input, set);
 	});
-	toggleButtonState(inputList, buttonSubmit, set);
+	if (hasInvalidInput(inputList)) {
+		enableSubmitButton(buttonSubmit, set);
+	} else {
+		disableSubmitButton(buttonSubmit, set);
+	}
 }
 
 function checkInputValidity(form, input, set) {
@@ -42,14 +50,14 @@ function checkInputValidity(form, input, set) {
 	}
 }
 
-function toggleButtonState(inputList, buttonSubmit, set) {
-	if (hasInvalidInput(inputList)) {
-		buttonSubmit.classList.add(set.inactiveButtonClass);
-		buttonSubmit.setAttribute('disabled', true);
-	} else {
-		buttonSubmit.classList.remove(set.inactiveButtonClass);
-		buttonSubmit.removeAttribute('disabled');
-	}
+function enableSubmitButton(buttonSubmit, set) {
+	buttonSubmit.classList.add(set.inactiveButtonClass);
+	buttonSubmit.setAttribute('disabled', true);
+}
+
+function disableSubmitButton(buttonSubmit, set) {
+	buttonSubmit.classList.remove(set.inactiveButtonClass);
+	buttonSubmit.removeAttribute('disabled');
 }
 
 function showInputError(form, input, errorMessage, set) {
