@@ -11,7 +11,7 @@ const profileDescription = document.querySelector('.profile__description');
 const popupAddCard = document.querySelector('.popup_type_add-card');
 const cardAddButton = document.querySelector('.profile__add-button');
 const formAddElement = document.querySelector('.form_type_add');
-const formAddNameInput = formAddElement.querySelector('#name-input');
+const formAddNameInput = formAddElement.querySelector('#place-name-input');
 const formAddLinkInput = formAddElement.querySelector('#link-input');
 
 const elementTemplate = document.querySelector('#element').content;
