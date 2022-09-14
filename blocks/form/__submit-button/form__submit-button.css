@@ -10,7 +10,7 @@
 	transition: background-color .5s ease-in-out;
 }
 
-.form__submit-button:hover {
+.form__submit-button:not([disabled]):hover {
 	opacity: 1;
 	background-color: rgba(0, 0, 0, .8);
 }
