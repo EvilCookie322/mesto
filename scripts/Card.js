@@ -29,4 +29,8 @@ class Card {
 	create() {
 
 	}
+
+	render() {
+
+	}
 }
