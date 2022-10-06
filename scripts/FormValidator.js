@@ -5,7 +5,7 @@ class FormValidator {
 
 	constructor(set, formSelector) {
 		this.#set = set;
-		this.#form = document.querySelector(formSelector);
+		this.#form = formSelector;
 	}
 
 	#showInputError(input, errorMessage) {
@@ -73,8 +73,10 @@ class FormValidator {
 		}
 	}
 
-	enableValidation(set) {
+	enableValidation() {
 		this.#form.addEventListener('submit', event => event.preventDefault());
 		this.#setEventListeners();
 	}
 }
+
+export { FormValidator };
