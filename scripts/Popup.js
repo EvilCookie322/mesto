@@ -73,13 +73,12 @@ class PopupTypeEditProfile extends Popup {
 class PopupTypeAddCard extends Popup {
 
 	#createCard;
+	#renderCard;
 
-	constructor(createCard, cardTemplate, container, popupPreview) {
+	constructor(createCard, renderCard) {
 		super('.popup_type_add-card');
 		this.#createCard = createCard;
-		this.container = container;
-		this.popupPreview = popupPreview;
-		this.cardTemplate = cardTemplate;
+		this.#renderCard = renderCard;
 		this.#addEventListeners();
 	}
 
@@ -90,8 +89,8 @@ class PopupTypeAddCard extends Popup {
 	#handleSubmit() {
 		const nameInputValue = this.popup.querySelector('#place-name-input').value;
 		const linkInputValue = this.popup.querySelector('#link-input').value;
-		this.#createCard(nameInputValue, linkInputValue, this.cardTemplate)
-			.render(this.container, this.popupPreview);
+		const card = this.#createCard(nameInputValue, linkInputValue);
+		this.#renderCard(card);
 		this.closePopup();
 	}
 }

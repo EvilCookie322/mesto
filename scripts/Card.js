@@ -5,7 +5,7 @@ class Card {
 	#element;
 	#elementImage;
 
-	constructor(name, link, template) {
+	constructor(template, name, link) {
 		this.#name = name;
 		this.#link = link;
 		this.#element = document.querySelector(template).content
@@ -13,7 +13,7 @@ class Card {
 		this.#elementImage = this.#element.querySelector('.element__image');
 	}
 
-	#addEventListeners(popupPreview) {
+	addEventListeners(popupPreview) {
 		this.#elementImage.addEventListener('click', () => popupPreview.openPopup(this.#name, this.#link));
 		this.#element.querySelector('.element__button-like').addEventListener('click', () => this.#handleLike());
 		this.#element.querySelector('.element__button-trash').addEventListener('click', () => this.#handleDeleteCard());
@@ -21,6 +21,7 @@ class Card {
 
 	#handleDeleteCard() {
 		this.#element.remove();
+		this.#element = null;
 	}
 
 	#handleLike() {
@@ -31,12 +32,7 @@ class Card {
 		this.#elementImage.src = this.#link;
 		this.#elementImage.alt = this.#name;
 		this.#element.querySelector('.element__name').textContent = this.#name;
-	}
-
-	render(container, popupPreview) {
-		this.#addEventListeners(popupPreview);
-		this.create();
-		container.prepend(this.#element);
+		return this.#element;
 	}
 }
 

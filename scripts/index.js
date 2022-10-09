@@ -8,11 +8,16 @@ import {
 }
 	from './data.js';
 
-const createCard = (...args) => new Card(...args);
+const createCard = (...args) => new Card(cardTemplate, ...args);
+const renderCard = (card, container = cardsContainer, popupPreview = popupTypePreviewPicture) => {
+
+	card.addEventListeners(popupPreview);
+	container.prepend(card.create());
+};
 
 const popupTypePreviewPicture = new PopupTypePreviewPicture();
 const popupTypeEditProfile = new PopupTypeEditProfile();
-const popupTypeAddCard = new PopupTypeAddCard(createCard, cardTemplate, cardsContainer, popupTypePreviewPicture);
+const popupTypeAddCard = new PopupTypeAddCard(createCard, renderCard);
 
 const validatorFormTypeAdd = new FormValidator(validationSet, formTypeAdd);
 const validatorFormTypeEdit = new FormValidator(validationSet, formTypeEdit);
@@ -30,4 +35,6 @@ profileAddButton.addEventListener('click', () => {
 	popupTypeAddCard.openPopup();
 });
 
-initialCards.forEach(card => new Card(card.name, card.link, '#element').render(cardsContainer, popupTypePreviewPicture));
+initialCards.forEach(card => {
+	renderCard(createCard(card.name, card.link));
+});
