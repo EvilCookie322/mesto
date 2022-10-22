@@ -1,4 +1,6 @@
-import { PopupTypePreviewPicture, PopupTypeAddCard, PopupTypeEditProfile } from './Popup.js';
+import { PopupTypePreviewPicture } from './PopupTypePreviewPicture.js';
+import { PopupTypeAddCard } from './PopupTypeAddCard.js'
+import { PopupTypeEditProfile } from './PopupTypeEditProfile.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { initialCards } from './cards.js';
@@ -10,7 +12,6 @@ import {
 
 const createCard = (...args) => new Card(cardTemplate, ...args);
 const renderCard = (card, container = cardsContainer, popupPreview = popupTypePreviewPicture) => {
-
 	card.addEventListeners(popupPreview);
 	container.prepend(card.create());
 };
@@ -25,13 +26,13 @@ validatorFormTypeAdd.enableValidation();
 validatorFormTypeEdit.enableValidation();
 
 profileEditButton.addEventListener('click', () => {
-	validatorFormTypeEdit.resetFormErrors();
 	popupTypeEditProfile.openPopup();
+	validatorFormTypeEdit.resetFormErrors();
 });
 
 profileAddButton.addEventListener('click', () => {
-	validatorFormTypeAdd.resetFormErrors();
 	formTypeAdd.reset();
+	validatorFormTypeAdd.resetFormErrors();
 	popupTypeAddCard.openPopup();
 });
 
