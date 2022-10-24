@@ -10,10 +10,10 @@ import {
 }
 	from './data.js';
 
-const createCard = (...args) => new Card(cardTemplate, ...args);
-const renderCard = (card, container = cardsContainer, popupPreview = popupTypePreviewPicture) => {
-	card.addEventListeners(popupPreview);
-	container.prepend(card.create());
+const openCardPreview = (name, link) => popupTypePreviewPicture.openPopup(name, link);
+const createCard = (...args) => new Card(openCardPreview, cardTemplate, ...args).create();
+const renderCard = (card, container = cardsContainer) => {
+	container.prepend(card);
 };
 
 const popupTypePreviewPicture = new PopupTypePreviewPicture();
