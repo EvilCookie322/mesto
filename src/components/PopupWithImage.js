@@ -9,6 +9,7 @@ class PopupWithImage extends Popup {
 		super('.popup_type_preview-picture');
 		this.#image = this.popup.querySelector('.popup__image');
 		this.#name = this.popup.querySelector('.popup__name');
+		this.addEventListeners();
 	}
 
 	openPopup(name, link) {

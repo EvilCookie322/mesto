@@ -18,13 +18,18 @@ import '../pages/index.css';
 
 const openCardPreview = (name, link) => popupTypePreviewPicture.openPopup(name, link);
 const createCard = (data) => {
-	const card = new Card(openCardPreview, cardTemplate, data.name, data.link).create();
-	cardsSection.addItem(card);
+	return new Card(openCardPreview, cardTemplate, data).create();
 };
 
-const cardsSection = new Section({ items: initialCards, renderer: createCard }, cardsContainer);
-cardsSection.renderItems();
-const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', createCard);
+const cardsSection = new Section({
+	renderer: (data) => {
+		cardsSection.addItem(createCard(data));
+	}
+}, cardsContainer);
+cardsSection.renderItems(initialCards);
+const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', (data) => {
+	cardsSection.addItem(createCard(data));
+});
 
 profileAddButton.addEventListener('click', () => {
 	validatorFormTypeAdd.resetFormErrors();
