@@ -8,10 +8,9 @@ class Popup {
 		this.popup = document.querySelector(selector);
 		this.#buttonClose = this.popup.querySelector('.popup__close-button');
 		this.handleClosePopupPressEsc = this.#handleClosePopupPressEsc.bind(this);
-		this.#addEventListeners();
 	}
 
-	#addEventListeners() {
+	addEventListeners() {
 		this.#buttonClose.addEventListener('click', () => this.closePopup());
 		this.popup.addEventListener('click', (e) => this.#handleClosePopupClickOverlay(e));
 	}

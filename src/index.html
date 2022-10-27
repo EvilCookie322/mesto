@@ -5,18 +5,17 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="./pages/index.css">
 	<title>Место</title>
 </head>
 
 <body class="page">
 	<div class="page__container">
 		<header class="header">
-			<img src="images/logo.svg" alt="Лого" class="header__logo">
+			<img src="<%=require('./images/logo.svg')%>" alt="Лого" class="header__logo">
 		</header>
 		<main class="content">
 			<section class="profile">
-				<img src="images/avatar.jpg" alt="Аватар" class="profile__photo">
+				<img src="<%=require('./images/avatar.jpg')%>" alt="Аватар" class="profile__photo">
 				<div class="profile__info">
 					<h1 class="profile__name">Жак-Ив Кусто</h1>
 					<button type="button" class="button profile__edit-button"></button>
@@ -36,13 +35,13 @@
 			<h2 class="popup__heading">Редактировать профиль</h2>
 			<form name="edit-form" class="form form_type_edit" novalidate>
 				<label class="form__field">
-					<input type="text" class="form__input" id="name-input" value="Жак-Ив Кусто" minlength="2"
-						maxlength="40" required>
+					<input type="text" class="form__input" id="name-input" name="name" value="Жак-Ив Кусто"
+						minlength="2" maxlength="40" required>
 					<span class="form__error name-input-error"></span>
 				</label>
 				<label class="form__field">
-					<input type="text" class="form__input" id="description-input" value="Исследователь океана"
-						minlength="2" maxlength="200" required>
+					<input type="text" class="form__input" id="description-input" name="description"
+						value="Исследователь океана" minlength="2" maxlength="200" required>
 					<span class="form__error description-input-error"></span>
 				</label>
 				<button type="submit" class="button form__submit-button">Сохранить</button>
@@ -55,12 +54,13 @@
 			<h2 class="popup__heading">Новое место</h2>
 			<form name="add-form" class="form form_type_add" novalidate>
 				<label class="form__field">
-					<input type="text" class="form__input" id="place-name-input" placeholder="Название" minlength="2"
-						maxlength="30" required>
+					<input type="text" class="form__input" id="place-name-input" name="name" placeholder="Название"
+						minlength="2" maxlength="30" required>
 					<span class="form__error place-name-input-error"></span>
 				</label>
 				<label class="form__field">
-					<input type="url" class="form__input" id="link-input" placeholder="Ссылка на картинку" required>
+					<input type="url" class="form__input" id="link-input" name="link" placeholder="Ссылка на картинку"
+						required>
 					<span class="form__error link-input-error"></span>
 				</label>
 				<button type="submit" class="button form__submit-button">Создать</button>
@@ -83,7 +83,6 @@
 			<button type="button" class="button element__button-trash"></button>
 		</li>
 	</template>
-	<script type="module" src="scripts/index.js"></script>
 </body>
 
 </html>

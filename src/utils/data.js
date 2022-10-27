@@ -12,8 +12,10 @@ const cardTemplate = '#element';
 const formTypeAdd = document.forms['add-form'];
 const formTypeEdit = document.forms['edit-form'];
 const cardsContainer = document.querySelector('.elements');
+const profileNameInput = document.querySelector('#name-input');
+const profileDescriptionInput = document.querySelector('#description-input');
 
 export {
 	validationSet, profileEditButton, profileAddButton, cardTemplate,
-	formTypeAdd, formTypeEdit, cardsContainer
+	formTypeAdd, formTypeEdit, cardsContainer, profileNameInput, profileDescriptionInput,
 };

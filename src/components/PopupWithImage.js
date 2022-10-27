@@ -1,6 +1,6 @@
 import { Popup } from './Popup.js';
 
-class PopupTypePreviewPicture extends Popup {
+class PopupWithImage extends Popup {
 
 	#image;
 	#name;
@@ -19,4 +19,4 @@ class PopupTypePreviewPicture extends Popup {
 	}
 }
 
-export { PopupTypePreviewPicture };
+export { PopupWithImage };
