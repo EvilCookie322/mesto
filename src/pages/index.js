@@ -4,21 +4,53 @@ import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Section } from '../components/Section.js';
+import { PopupConfirmDelete } from '../components/PopupConfirmDelete.js';
 
-import { initialCards } from '../utils/cards.js';
 import {
 	validationSet, profileAddButton, profileEditButton,
 	cardTemplate, formTypeAdd, formTypeEdit, cardsContainer,
 	profileDescriptionInput, profileNameInput,
+	avatarEditButton, formTypeEditAvatar, API_CONFIG
 }
 	from '../utils/data.js';
 
 //стили by webpack
 import '../pages/index.css';
 
+import { Api } from '../components/Api.js';
+
+const api = new Api(API_CONFIG);
+
+const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete');
+const handleDeleteCard = (card) => {
+	popupTypeConfirm.openPopup();
+	popupTypeConfirm.setSubmitAction(() => {
+		api.deleteCard(card.id)
+			.then(() => card.removeCard())
+			.then(() => popupTypeConfirm.closePopup())
+			.catch(error => console.log('Error while deleting card', error))
+			.finally(() => {
+				setTimeout(() => {
+					popupTypeConfirm.removeSubmitAction();
+				}, 1000);
+			});
+	});
+};
+
+const handleLikeCard = (liked, id) => {
+	if (liked) {
+		return api.removeLike(id);
+	} else {
+		return api.setLike(id);
+	}
+}
+
+const popupTypePreviewPicture = new PopupWithImage();
+
 const openCardPreview = (name, link) => popupTypePreviewPicture.openPopup(name, link);
 const createCard = (data) => {
-	return new Card(openCardPreview, cardTemplate, data).create();
+	return new Card(openCardPreview, cardTemplate, handleDeleteCard, handleLikeCard, data)
+		.create();
 };
 
 const cardsSection = new Section({
@@ -26,9 +58,19 @@ const cardsSection = new Section({
 		cardsSection.addItem(createCard(data));
 	}
 }, cardsContainer);
-cardsSection.renderItems(initialCards);
+
+api.getInitialCards().then(cards => {
+	cardsSection.renderItems(cards);
+});
+
 const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', (data) => {
-	cardsSection.addItem(createCard(data));
+	popupTypeAddCard.loading(true);
+	api.createCard(data)
+		.then((newData) => {
+			cardsSection.addItem(createCard(newData));
+		})
+		.catch(error => console.log('Error while creating card', error))
+		.finally(() => popupTypeAddCard.loading(false));
 });
 
 profileAddButton.addEventListener('click', () => {
@@ -36,11 +78,33 @@ profileAddButton.addEventListener('click', () => {
 	popupTypeAddCard.openPopup();
 });
 
-const popupTypePreviewPicture = new PopupWithImage();
 
-const userInfo = new UserInfo({ nameSelector: '.profile__name', descriptionSelector: '.profile__description' });
+const userInfo = new UserInfo({ nameSelector: '.profile__name', descriptionSelector: '.profile__description', avatarSelector: '.profile__photo' });
+
+api.getUserInformation().then(information => {
+	userInfo.setUserInfo(information.name, information.about);
+	userInfo.setUserAvatar(information.avatar);
+});
+
 const popupTypeEditProfile = new PopupWithForm('.popup_type_edit-profile', ({ name, description }) => {
-	userInfo.setUserInfo(name, description);
+	popupTypeEditProfile.loading(true);
+	api.updateUserInformation(name, description)
+		.then(() => userInfo.setUserInfo(name, description))
+		.catch(error => console.log('Error while updating profile information', error))
+		.finally(() => popupTypeEditProfile.loading(false));
+})
+
+const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', ({ link }) => {
+	popupTypeAddCard.loading(true);
+	api.updateAvatar(link)
+		.then(() => userInfo.setUserAvatar(link))
+		.catch(error => console.log('Error while updating avatar', error))
+		.finally(() => popupTypeAddCard.loading(false));
+})
+
+avatarEditButton.addEventListener('click', () => {
+	popupTypeEditAvatar.openPopup();
+	validatorFormTypeEditAvatar.resetFormErrors();
 })
 
 profileEditButton.addEventListener('click', () => {
@@ -51,7 +115,9 @@ profileEditButton.addEventListener('click', () => {
 
 const validatorFormTypeAdd = new FormValidator(validationSet, formTypeAdd);
 const validatorFormTypeEdit = new FormValidator(validationSet, formTypeEdit);
+const validatorFormTypeEditAvatar = new FormValidator(validationSet, formTypeEditAvatar);
 validatorFormTypeAdd.enableValidation();
 validatorFormTypeEdit.enableValidation();
+validatorFormTypeEditAvatar.enableValidation();
 
 

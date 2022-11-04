@@ -1,6 +1,5 @@
 class Section {
 
-	#items;
 	#renderer;
 	#container;
 

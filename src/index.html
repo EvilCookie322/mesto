@@ -15,7 +15,10 @@
 		</header>
 		<main class="content">
 			<section class="profile">
-				<img src="<%=require('./images/avatar.jpg')%>" alt="Аватар" class="profile__photo">
+				<div class="profile__photo-container">
+					<button type="button" class="profile__edit-avatar-button"></button>
+					<img src="<%=require('./images/avatar.jpg')%>" alt="Аватар" class="profile__photo">
+				</div>
 				<div class="profile__info">
 					<h1 class="profile__name">Жак-Ив Кусто</h1>
 					<button type="button" class="button profile__edit-button"></button>
@@ -30,6 +33,7 @@
 			<p class="footer__copyright">© 2022 Mesto Russia</p>
 		</footer>
 	</div>
+
 	<div class="popup popup_type_edit-profile">
 		<div class="popup__container">
 			<h2 class="popup__heading">Редактировать профиль</h2>
@@ -49,6 +53,7 @@
 			<button type="button" class="button popup__close-button"></button>
 		</div>
 	</div>
+
 	<div class="popup popup_type_add-card">
 		<div class="popup__container">
 			<h2 class="popup__heading">Новое место</h2>
@@ -68,6 +73,22 @@
 			<button type="button" class="button popup__close-button"></button>
 		</div>
 	</div>
+
+	<div class="popup popup_type_edit-avatar">
+		<div class="popup__container">
+			<h2 class="popup__heading">Обновить аватар</h2>
+			<form name="edit-avatar-form" class="form form_type_edit-avatar" novalidate>
+				<label class="form__field">
+					<input type="url" class="form__input" id="link-input" name="link" placeholder="Ссылка на картинку"
+						required>
+					<span class="form__error link-input-error"></span>
+				</label>
+				<button type="submit" class="button form__submit-button">Сохранить</button>
+			</form>
+			<button type="button" class="button popup__close-button"></button>
+		</div>
+	</div>
+
 	<div class="popup popup_type_preview-picture">
 		<div class="popup__picture-container">
 			<img class="popup__image" src="#" alt>
@@ -75,11 +96,25 @@
 			<button type="button" class="button popup__close-button"></button>
 		</div>
 	</div>
+
+	<div class="popup popup_type_confirm-delete">
+		<div class="popup__container popup__container_type_popup-confirm">
+			<h2 class="popup__heading">Вы уверены?</h2>
+			<form name="confirm-form" class="form" novalidate>
+				<button type="submit" class="button form__confirm-button">Да</button>
+			</form>
+			<button type="button" class="button popup__close-button"></button>
+		</div>
+	</div>
+
 	<template id="element">
 		<li class="element">
 			<img class="element__image">
 			<h2 class="element__name"></h2>
-			<button type="button" class="button element__button-like"></button>
+			<div class="element__like-container">
+				<button type="button" class="button element__button-like"></button>
+				<p class="element__like-count">0</p>
+			</div>
 			<button type="button" class="button element__button-trash"></button>
 		</li>
 	</template>
