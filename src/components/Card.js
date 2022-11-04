@@ -1,6 +1,6 @@
 class Card {
 
-	static myId = 'f138201691f64b3e6a5a34c5';
+	#myID;
 
 	#openCardPreview;
 	#handleDelete;
@@ -12,20 +12,23 @@ class Card {
 	#element;
 	#elementImage;
 	#likes;
+	#buttonDelete;
 
 
-	constructor(openCardPreview, template, handleDelete, handleLike, { likes, _id, name, link, owner }) {
+	constructor(openCardPreview, template, handleDelete, handleLike, { likes, _id, name, link, owner, myID }) {
 		this.#openCardPreview = openCardPreview;
 		this.#handleDelete = handleDelete;
 		this.#handleLike = handleLike;
 		this.#name = name;
 		this.#link = link;
 		this.id = _id;
+		this.#myID = myID;
 		this.#owner = owner;
 		this.#element = document.querySelector(template).content
 			.querySelector('.element').cloneNode(true);
 		this.#elementImage = this.#element.querySelector('.element__image');
 		this.#buttonLike = this.#element.querySelector('.element__button-like');
+		this.#buttonDelete = this.#element.querySelector('.element__button-trash');
 		this.#likes = likes;
 		this.likeCount = this.#element.querySelector('.element__like-count');
 		this.likeCount.textContent = likes.length;
@@ -42,9 +45,9 @@ class Card {
 				})
 				.catch(error => console.log('Error while toggling like', error));
 		});
-		if (this.#owner._id == Card.myId) {
-			this.#element.querySelector('.element__button-trash').style.display = 'block';
-			this.#element.querySelector('.element__button-trash').addEventListener('click', () => this.#handleDeleteCard());
+		if (this.#owner._id == this.#myID) {
+			this.#buttonDelete.style.display = 'block';
+			this.#buttonDelete.addEventListener('click', () => this.#handleDeleteCard());
 		}
 	}
 
@@ -64,7 +67,7 @@ class Card {
 
 	haveMyLike() {
 		this.#likes.forEach(like => {
-			if (like._id == Card.myId) {
+			if (like._id == this.#myID) {
 				this.#toggleLike();
 			}
 		});

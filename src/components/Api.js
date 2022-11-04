@@ -14,8 +14,7 @@ class Api {
 				return response.json();
 			}
 			return Promise.reject(new Error(response.status));
-		})
-			.catch(error => Promise.reject(error));
+		});
 	}
 
 	getInitialCards() {

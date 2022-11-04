@@ -19,7 +19,34 @@ import '../pages/index.css';
 
 import { Api } from '../components/Api.js';
 
+let MY_ID;
+
 const api = new Api(API_CONFIG);
+
+const userInfo = new UserInfo({ nameSelector: '.profile__name', descriptionSelector: '.profile__description', avatarSelector: '.profile__photo' });
+
+const cardsSection = new Section({
+	renderer: (data) => {
+		cardsSection.addItem(createCard(data));
+	}
+}, cardsContainer);
+
+const getUserInformation = api.getUserInformation()
+	.then(information => {
+		userInfo.setUserInfo(information.name, information.about);
+		userInfo.setUserAvatar(information.avatar);
+		MY_ID = information._id;
+	})
+	.catch(error => console.log('Error while getting user information', error));
+
+const getInitialCards = api.getInitialCards()
+	.then(cards => {
+		cardsSection.renderItems(cards);
+	})
+	.catch(error => console.log('Error while getting initial cards', error));
+
+Promise.all([getUserInformation, getInitialCards])
+	.catch(error => console.error(error));
 
 const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete');
 const handleDeleteCard = (card) => {
@@ -49,19 +76,10 @@ const popupTypePreviewPicture = new PopupWithImage();
 
 const openCardPreview = (name, link) => popupTypePreviewPicture.openPopup(name, link);
 const createCard = (data) => {
+	data.myID = MY_ID;
 	return new Card(openCardPreview, cardTemplate, handleDeleteCard, handleLikeCard, data)
 		.create();
 };
-
-const cardsSection = new Section({
-	renderer: (data) => {
-		cardsSection.addItem(createCard(data));
-	}
-}, cardsContainer);
-
-api.getInitialCards().then(cards => {
-	cardsSection.renderItems(cards);
-});
 
 const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', (data) => {
 	popupTypeAddCard.loading(true);
@@ -78,19 +96,11 @@ profileAddButton.addEventListener('click', () => {
 	popupTypeAddCard.openPopup();
 });
 
-
-const userInfo = new UserInfo({ nameSelector: '.profile__name', descriptionSelector: '.profile__description', avatarSelector: '.profile__photo' });
-
-api.getUserInformation().then(information => {
-	userInfo.setUserInfo(information.name, information.about);
-	userInfo.setUserAvatar(information.avatar);
-});
-
 const popupTypeEditProfile = new PopupWithForm('.popup_type_edit-profile', ({ name, description }) => {
 	popupTypeEditProfile.loading(true);
 	api.updateUserInformation(name, description)
 		.then(() => userInfo.setUserInfo(name, description))
-		.catch(error => console.log('Error while updating profile information', error))
+		.catch(error => console.log('Error while updating user information', error))
 		.finally(() => popupTypeEditProfile.loading(false));
 })
 
