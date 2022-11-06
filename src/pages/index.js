@@ -44,23 +44,23 @@ Promise.all([api.getUserInformation(), api.getInitialCards()])
 	})
 	.catch(error => console.error(error));
 
-const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete');
+const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete', (card) => {
+	popupTypeConfirm.deleting(true);
+	return api.deleteCard(card.id)
+		.then((requestStatus) => {
+			if (requestStatus) {
+				card.removeCard();
+				popupTypeConfirm.closePopup();
+				setTimeout(() => {
+					popupTypeConfirm.deleting(false);
+				}, 500);
+			}
+		})
+		.catch(error => console.log('Error while deleting card', error))
+
+});
 const handleDeleteCard = (card) => {
-	popupTypeConfirm.openPopup();
-	popupTypeConfirm.setSubmitAction(() => {
-		popupTypeConfirm.deleting(true);
-		return api.deleteCard(card.id)
-			.then((requestStatus) => {
-				if (requestStatus) {
-					card.removeCard();
-					popupTypeConfirm.closePopup();
-					setTimeout(() => {
-						popupTypeConfirm.deleting(false);
-					}, 500);
-				}
-			})
-			.catch(error => console.log('Error while deleting card', error))
-	});
+	popupTypeConfirm.openPopup(card);
 };
 
 const changeLike = (fetch, setLike) => {

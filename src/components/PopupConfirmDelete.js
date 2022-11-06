@@ -4,27 +4,33 @@ class PopupConfirmDelete extends Popup {
 
 	#form;
 	#submitbutton;
-	#submitButtonText
+	#submitButtonText;
+	#handleSubmit;
+	#popupContainer;
 
-	constructor(selector,) {
+	constructor(selector, handleSubmit) {
 		super(selector);
-		this.addEventListeners();
+		this.#handleSubmit = handleSubmit;
+		this.#popupContainer = this.popup.querySelector('.popup__container');
 		this.#form = this.popup.querySelector('.form');
 		this.#submitbutton = this.#form.querySelector('.form__confirm-button');
 		this.#submitButtonText = this.#submitbutton.textContent;
+		this.addEventListeners();
 	}
 
-	setSubmitAction(action) {
-		const submitAction = (e) => {
+	addEventListeners() {
+		super.addEventListeners();
+		this.#form.addEventListener('submit', (e) => {
 			e.preventDefault();
-			action();
-		}
-		this.submitAction = submitAction.bind(this);
-		this.#form.addEventListener('submit', this.submitAction);
+			this.#handleSubmit(this.cardToRemove);
+		})
+		this.#popupContainer.addEventListener('click', () => this.#submitbutton.focus());
 	}
 
-	removeSubmitAction() {
-		this.#form.removeEventListener('submit', this.submitAction);
+	openPopup(card) {
+		super.openPopup();
+		this.cardToRemove = card;
+		this.#submitbutton.focus();
 	}
 
 	deleting(isDeleting) {
@@ -35,11 +41,6 @@ class PopupConfirmDelete extends Popup {
 			this.#submitbutton.removeAttribute('disabled');
 			this.#submitbutton.textContent = this.#submitButtonText;
 		}
-	}
-
-	closePopup() {
-		this.removeSubmitAction();
-		super.closePopup();
 	}
 }
 
