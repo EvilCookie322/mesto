@@ -48,11 +48,15 @@ const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete');
 const handleDeleteCard = (card) => {
 	popupTypeConfirm.openPopup();
 	popupTypeConfirm.setSubmitAction(() => {
+		popupTypeConfirm.deleting(true);
 		return api.deleteCard(card.id)
 			.then((requestStatus) => {
 				if (requestStatus) {
 					card.removeCard();
-					return Promise.resolve(true);
+					popupTypeConfirm.closePopup();
+					setTimeout(() => {
+						popupTypeConfirm.deleting(false);
+					}, 500);
 				}
 			})
 			.catch(error => console.log('Error while deleting card', error))
@@ -91,11 +95,13 @@ const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', (data) => {
 		.then((newData) => {
 			if (newData) {
 				cardsSection.addItem(createCard(newData));
-				return Promise.resolve(true);
+				popupTypeAddCard.closePopup();
 			}
+			setTimeout(() => {
+				popupTypeAddCard.loading(false);
+			}, 500);
 		})
-		.catch(error => console.log('Error while creating card', error))
-		.finally(() => popupTypeAddCard.loading(false));
+		.catch(error => console.log('Error while creating card', error));
 });
 
 profileAddButton.addEventListener('click', () => {
@@ -109,11 +115,13 @@ const popupTypeEditProfile = new PopupWithForm('.popup_type_edit-profile', ({ na
 		.then((requestStatus) => {
 			if (requestStatus) {
 				userInfo.setUserInfo(name, description);
-				return Promise.resolve(true);
+				popupTypeEditProfile.closePopup();
 			}
+			setTimeout(() => {
+				popupTypeEditProfile.loading(false);
+			}, 500);
 		})
-		.catch(error => console.log('Error while updating user information', error))
-		.finally(() => popupTypeEditProfile.loading(false));
+		.catch(error => console.log('Error while updating user information', error));
 })
 
 const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', ({ link }) => {
@@ -122,11 +130,13 @@ const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', ({ link
 		.then((requestStatus) => {
 			if (requestStatus) {
 				userInfo.setUserAvatar(link);
-				return Promise.resolve(true);
+				popupTypeEditAvatar.closePopup();
 			}
+			setTimeout(() => {
+				popupTypeEditAvatar.loading(false);
+			}, 500);
 		})
-		.catch(error => console.log('Error while updating avatar', error))
-		.finally(() => popupTypeEditAvatar.loading(false));
+		.catch(error => console.log('Error while updating avatar', error));
 })
 
 avatarEditButton.addEventListener('click', () => {
