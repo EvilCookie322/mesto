@@ -27,48 +27,52 @@ const userInfo = new UserInfo({ nameSelector: '.profile__name', descriptionSelec
 
 const cardsSection = new Section({
 	renderer: (data) => {
-		cardsSection.addItem(createCard(data));
+		cardsSection.addServerItem(createCard(data));
 	}
 }, cardsContainer);
 
-const getUserInformation = api.getUserInformation()
-	.then(information => {
-		userInfo.setUserInfo(information.name, information.about);
-		userInfo.setUserAvatar(information.avatar);
-		MY_ID = information._id;
+Promise.all([api.getUserInformation(), api.getInitialCards()])
+	.then(([user, cards]) => {
+		if (user) {
+			userInfo.setUserInfo(user.name, user.about);
+			userInfo.setUserAvatar(user.avatar);
+			MY_ID = user._id;
+		}
+		if (cards) {
+			cardsSection.renderItems(cards);
+		}
 	})
-	.catch(error => console.log('Error while getting user information', error));
-
-const getInitialCards = api.getInitialCards()
-	.then(cards => {
-		cardsSection.renderItems(cards);
-	})
-	.catch(error => console.log('Error while getting initial cards', error));
-
-Promise.all([getUserInformation, getInitialCards])
 	.catch(error => console.error(error));
 
 const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete');
 const handleDeleteCard = (card) => {
 	popupTypeConfirm.openPopup();
 	popupTypeConfirm.setSubmitAction(() => {
-		api.deleteCard(card.id)
-			.then(() => card.removeCard())
-			.then(() => popupTypeConfirm.closePopup())
+		return api.deleteCard(card.id)
+			.then((requestStatus) => {
+				if (requestStatus) {
+					card.removeCard();
+					return Promise.resolve(true);
+				}
+			})
 			.catch(error => console.log('Error while deleting card', error))
-			.finally(() => {
-				setTimeout(() => {
-					popupTypeConfirm.removeSubmitAction();
-				}, 1000);
-			});
 	});
 };
 
-const handleLikeCard = (liked, id) => {
+const changeLike = (fetch, setLike) => {
+	fetch.then(data => {
+		if (data) {
+			setLike(data.likes.length)
+		}
+	})
+		.catch(error => console.log('Error while toggling like', error));
+}
+
+const handleLikeCard = (liked, id, setLike) => {
 	if (liked) {
-		return api.removeLike(id);
+		changeLike(api.removeLike(id), setLike);
 	} else {
-		return api.setLike(id);
+		changeLike(api.setLike(id), setLike);
 	}
 }
 
@@ -83,9 +87,12 @@ const createCard = (data) => {
 
 const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', (data) => {
 	popupTypeAddCard.loading(true);
-	api.createCard(data)
+	return api.createCard(data)
 		.then((newData) => {
-			cardsSection.addItem(createCard(newData));
+			if (newData) {
+				cardsSection.addItem(createCard(newData));
+				return Promise.resolve(true);
+			}
 		})
 		.catch(error => console.log('Error while creating card', error))
 		.finally(() => popupTypeAddCard.loading(false));
@@ -98,18 +105,28 @@ profileAddButton.addEventListener('click', () => {
 
 const popupTypeEditProfile = new PopupWithForm('.popup_type_edit-profile', ({ name, description }) => {
 	popupTypeEditProfile.loading(true);
-	api.updateUserInformation(name, description)
-		.then(() => userInfo.setUserInfo(name, description))
+	return api.updateUserInformation(name, description)
+		.then((requestStatus) => {
+			if (requestStatus) {
+				userInfo.setUserInfo(name, description);
+				return Promise.resolve(true);
+			}
+		})
 		.catch(error => console.log('Error while updating user information', error))
 		.finally(() => popupTypeEditProfile.loading(false));
 })
 
 const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', ({ link }) => {
-	popupTypeAddCard.loading(true);
-	api.updateAvatar(link)
-		.then(() => userInfo.setUserAvatar(link))
+	popupTypeEditAvatar.loading(true);
+	return api.updateAvatar(link)
+		.then((requestStatus) => {
+			if (requestStatus) {
+				userInfo.setUserAvatar(link);
+				return Promise.resolve(true);
+			}
+		})
 		.catch(error => console.log('Error while updating avatar', error))
-		.finally(() => popupTypeAddCard.loading(false));
+		.finally(() => popupTypeEditAvatar.loading(false));
 })
 
 avatarEditButton.addEventListener('click', () => {

@@ -12,6 +12,10 @@ class Section {
 		items.forEach(item => this.#renderer(item));
 	}
 
+	addServerItem(item) {
+		this.#container.append(item);
+	}
+
 	addItem(item) {
 		this.#container.prepend(item);
 	}

@@ -38,17 +38,17 @@ class Card {
 	#addEventListeners() {
 		this.#elementImage.addEventListener('click', () => this.#openCardPreview(this.#name, this.#link));
 		this.#buttonLike.addEventListener('click', () => {
-			this.#handleLike(this.isLiked, this.id)
-				.then((data) => {
-					this.likeCount.textContent = data.likes.length;
-					this.#toggleLike();
-				})
-				.catch(error => console.log('Error while toggling like', error));
+			this.#handleLike(this.isLiked, this.id, this.setLike.bind(this));
 		});
 		if (this.#owner._id == this.#myID) {
 			this.#buttonDelete.style.display = 'block';
 			this.#buttonDelete.addEventListener('click', () => this.#handleDeleteCard());
 		}
+	}
+
+	setLike(count) {
+		this.likeCount.textContent = count;
+		this.#toggleLike();
 	}
 
 	#handleDeleteCard() {

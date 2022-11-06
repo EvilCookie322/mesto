@@ -12,15 +12,17 @@ class PopupConfirmDelete extends Popup {
 		this.#submitbutton = this.#form.querySelector('.form__confirm-button');
 	}
 
-	addEventListeners() {
-		super.addEventListeners();
-	}
-
 	setSubmitAction(action) {
 		const submitAction = (e) => {
 			e.preventDefault();
 			this.#submitbutton.setAttribute('disabled', true);
-			action();
+			action().then((ok) => {
+				if (ok) {
+					this.closePopup();
+				}
+				this.#submitbutton.removeAttribute('disabled');
+			});
+
 		}
 		this.submitAction = submitAction.bind(this);
 		this.#form.addEventListener('submit', this.submitAction);
@@ -28,7 +30,12 @@ class PopupConfirmDelete extends Popup {
 
 	removeSubmitAction() {
 		this.#form.removeEventListener('submit', this.submitAction);
-		this.#submitbutton.removeAttribute('disabled');
+
+	}
+
+	closePopup() {
+		super.closePopup();
+		this.removeSubmitAction();
 	}
 }
 

@@ -14,7 +14,11 @@ class Api {
 				return response.json();
 			}
 			return Promise.reject(new Error(response.status));
-		});
+		})
+			.catch(error => {
+				console.log('Error while sending request', error);
+				return false;
+			});
 	}
 
 	getInitialCards() {
