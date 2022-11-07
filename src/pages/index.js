@@ -51,13 +51,15 @@ const popupTypeConfirm = new PopupConfirmDelete('.popup_type_confirm-delete', (c
 			if (requestStatus) {
 				card.removeCard();
 				popupTypeConfirm.closePopup();
-				setTimeout(() => {
-					popupTypeConfirm.deleting(false);
-				}, 500);
 			}
+			setTimeout(() => {
+				popupTypeConfirm.deleting(false);
+			}, 500);
 		})
 		.catch(error => console.log('Error while deleting card', error))
-
+		.finally(() => setTimeout(() => {
+			popupTypeConfirm.deleting(false);
+		}, 500));
 });
 const handleDeleteCard = (card) => {
 	popupTypeConfirm.openPopup(card);
@@ -97,11 +99,13 @@ const popupTypeAddCard = new PopupWithForm('.popup_type_add-card', (data) => {
 				cardsSection.addItem(createCard(newData));
 				popupTypeAddCard.closePopup();
 			}
+		})
+		.catch(error => console.log('Error while creating card', error))
+		.finally(() =>
 			setTimeout(() => {
 				popupTypeAddCard.loading(false);
-			}, 500);
-		})
-		.catch(error => console.log('Error while creating card', error));
+			}, 500)
+		);
 });
 
 profileAddButton.addEventListener('click', () => {
@@ -117,11 +121,13 @@ const popupTypeEditProfile = new PopupWithForm('.popup_type_edit-profile', ({ na
 				userInfo.setUserInfo(name, description);
 				popupTypeEditProfile.closePopup();
 			}
+		})
+		.catch(error => console.log('Error while updating user information', error))
+		.finally(() =>
 			setTimeout(() => {
 				popupTypeEditProfile.loading(false);
-			}, 500);
-		})
-		.catch(error => console.log('Error while updating user information', error));
+			}, 500)
+		);
 })
 
 const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', ({ link }) => {
@@ -132,11 +138,13 @@ const popupTypeEditAvatar = new PopupWithForm('.popup_type_edit-avatar', ({ link
 				userInfo.setUserAvatar(link);
 				popupTypeEditAvatar.closePopup();
 			}
+		})
+		.catch(error => console.log('Error while updating avatar', error))
+		.finally(() =>
 			setTimeout(() => {
 				popupTypeEditAvatar.loading(false);
-			}, 500);
-		})
-		.catch(error => console.log('Error while updating avatar', error));
+			}, 500)
+		);
 })
 
 avatarEditButton.addEventListener('click', () => {
